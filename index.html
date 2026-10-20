@@ -55,7 +55,7 @@
           <div class="aesthetic-glow" aria-hidden="true"></div>
           <figure class="art-slot">
             <div class="art-card">
-              <img src="astolfo.png" alt="Astolfo Art" class="art-image">
+            <img id="art-img" alt="Aesthetic Art" class="art-image" style="opacity: 0; transition: opacity 0.3s ease;">
             </div>
           </figure>
           <div class="art-meta">
@@ -64,7 +64,6 @@
           </div>
         </div>
       </aside>
-    </section>
     </section>
 
     <section class="stack reveal" style="--d: 0.54s" id="stack">
@@ -87,5 +86,32 @@
     <span>exit 0</span>
     <span>© MBKCHEL · systems</span>
   </footer>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const img = document.getElementById('art-img');
+
+    const showImage = (url) => {
+      img.src = url;
+      img.onload = () => { img.style.opacity = '1'; };
+    };
+
+    if (Math.random() < 0.7) {
+      fetch('https://nekos.best/api/v2/neko')
+        .then(res => res.json())
+        .then(data => {
+          if (data.results && data.results[0] && data.results[0].url) {
+            showImage(data.results[0].url);
+          } else {
+            showImage('astolfo.png');
+          }
+        })
+        .catch(() => {
+          showImage('astolfo.png');
+        });
+    } else {
+      showImage('astolfo.png');
+    }
+  });
+</script>
 </body>
 </html>
