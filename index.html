@@ -96,8 +96,9 @@
           <div class="aesthetic-glow" aria-hidden="true"></div>
           <figure class="art-slot">
             <div class="art-card">
-              <img id="art-img" alt="Aesthetic Art" class="art-image" style="opacity: 0; transition: opacity 0.3s ease;">
-            </div>
+  <img id="art-bg" alt="" class="art-bg" aria-hidden="true" style="opacity: 0; transition: opacity 0.3s ease;">
+  <img id="art-img" alt="Aesthetic Art" class="art-image" style="opacity: 0; transition: opacity 0.3s ease;">
+</div>
           </figure>
           <div class="art-meta">
             <span class="tag">/mbkchel_best</span>
@@ -142,22 +143,30 @@
         }
       };
 
+      const bg = document.getElementById('art-bg');
+
       const showImage = (url) => {
   console.log('Пробую загрузить картинку:', url);
   img.style.opacity = '0';
+  bg.style.opacity = '0';
 
   const tempImg = new Image();
   tempImg.referrerPolicy = 'no-referrer';
   tempImg.onload = () => {
     console.log('Картинка загрузилась OK');
     img.referrerPolicy = 'no-referrer';
+    bg.referrerPolicy = 'no-referrer';
     img.src = url;
+    bg.src = url;
     img.style.opacity = '1';
+    bg.style.opacity = '1';
   };
   tempImg.onerror = () => {
     console.error('Картинка НЕ загрузилась:', url);
     img.src = 'astolfo.png';
+    bg.src = 'astolfo.png';
     img.style.opacity = '1';
+    bg.style.opacity = '1';
   };
   tempImg.src = url;
 };
