@@ -8,6 +8,43 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .topbar-mode-btn {
+      cursor: pointer;
+      background: rgba(18, 18, 26, 0.8);
+      border: 1px solid var(--pink, #ff79c6);
+      color: #ff79c6;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 6px;
+      padding: 4px 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 10px rgba(255, 121, 198, 0.2);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .topbar-mode-btn:hover {
+      background: #ff79c6;
+      color: #0d0d12;
+      box-shadow: 0 0 15px rgba(255, 121, 198, 0.6);
+      transform: translateY(-1px);
+    }
+    .topbar-mode-btn .mode-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #ff79c6;
+      box-shadow: 0 0 6px #ff79c6;
+    }
+    .topbar-mode-btn:hover .mode-dot {
+      background-color: #0d0d12;
+      box-shadow: none;
+    }
+  </style>
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -22,6 +59,10 @@
       <span class="cmd">whoami</span>
     </div>
     <a class="nick" href="#top">MBKCHEL</a>
+    <button id="mode-toggle" class="topbar-mode-btn" title="Переключить режим артов">
+      <span class="mode-dot"></span>
+      <span id="mode-text">Mode: Waifu</span>
+    </button>
     <p class="homedir">/home/mbkchel</p>
     <p class="status"><span class="dot"></span>Rust Developer</p>
   </header>
@@ -55,7 +96,7 @@
           <div class="aesthetic-glow" aria-hidden="true"></div>
           <figure class="art-slot">
             <div class="art-card">
-            <img id="art-img" alt="Aesthetic Art" class="art-image" style="opacity: 0; transition: opacity 0.3s ease;">
+              <img id="art-img" alt="Aesthetic Art" class="art-image" style="opacity: 0; transition: opacity 0.3s ease;">
             </div>
           </figure>
           <div class="art-meta">
@@ -86,32 +127,121 @@
     <span>exit 0</span>
     <span>© MBKCHEL · systems</span>
   </footer>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const img = document.getElementById('art-img');
 
-    const showImage = (url) => {
-      img.src = url;
-      img.onload = () => { img.style.opacity = '1'; };
-    };
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const img = document.getElementById('art-img');
+      const modeBtn = document.getElementById('mode-toggle');
+      const modeText = document.getElementById('mode-text');
 
-    if (Math.random() < 0.7) {
-      fetch('https://nekos.best/api/v2/neko')
-        .then(res => res.json())
-        .then(data => {
-          if (data.results && data.results[0] && data.results[0].url) {
-            showImage(data.results[0].url);
-          } else {
-            showImage('astolfo.png');
-          }
-        })
-        .catch(() => {
-          showImage('astolfo.png');
-        });
-    } else {
+      let currentMode = localStorage.getItem('art_mode') || 'waifu';
+
+      const updateButtonText = () => {
+        if (modeText) {
+          modeText.textContent = currentMode === 'femboy' ? 'Mode: Femboy' : 'Mode: Waifu';
+        }
+      };
+
+      const showImage = (url) => {
+  console.log('Пробую загрузить картинку:', url);
+  img.style.opacity = '0';
+
+  const tempImg = new Image();
+  tempImg.referrerPolicy = 'no-referrer';
+  tempImg.onload = () => {
+    console.log('Картинка загрузилась OK');
+    img.referrerPolicy = 'no-referrer';
+    img.src = url;
+    img.style.opacity = '1';
+  };
+  tempImg.onerror = () => {
+    console.error('Картинка НЕ загрузилась:', url);
+    img.src = 'astolfo.png';
+    img.style.opacity = '1';
+  };
+  tempImg.src = url;
+};
+
+      const loadArt = () => {
+  if (currentMode === 'femboy') {
+  const tags = ['femboy', 'trap', 'otoko_no_ko'];
+  const workerBase = 'https://ferbooru.mbkchelofficialdev.workers.dev';
+
+  const tryFetch = () => {
+    const tag = tags[Math.floor(Math.random() * tags.length)];
+    const page = Math.floor(Math.random() * 5);
+    const url = workerBase
+      + '/?tags=' + encodeURIComponent(tag)
+      + '&pid=' + page;
+
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 20000);
+
+    return fetch(url, { signal: controller.signal })
+      .then(res => {
+        clearTimeout(timer);
+        console.log('Статус ответа:', res.status);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      });
+  };
+
+  tryFetch()
+    .catch(err => {
+      console.warn('Первая попытка не удалась:', err, '— пробую ещё раз');
+      return tryFetch();
+    })
+    .then(posts => {
+      console.log('Постов получено:', posts.length);
+      const okExt = ['jpg', 'jpeg', 'png', 'webp'];
+      const valid = posts.filter(p => {
+        const link = p.sample_url || p.file_url;
+        return link && okExt.includes(link.split('.').pop().toLowerCase());
+      });
+      console.log('Подходящих картинок:', valid.length);
+
+      if (valid.length === 0) {
+        showImage('astolfo.png');
+        return;
+      }
+      const p = valid[Math.floor(Math.random() * valid.length)];
+      showImage(p.sample_url || p.file_url);
+    })
+    .catch(err => {
+      console.error('Safebooru ошибка:', err);
       showImage('astolfo.png');
-    }
-  });
-</script>
+    });
+  return;
+}
+
+  if (Math.random() < 0.7) {
+    fetch('https://nekos.best/api/v2/neko')
+      .then(res => res.json())
+      .then(data => {
+        if (data.results && data.results[0] && data.results[0].url) {
+          showImage(data.results[0].url);
+        } else {
+          showImage('astolfo.png');
+        }
+      })
+      .catch(() => showImage('astolfo.png'));
+  } else {
+    showImage('astolfo.png');
+  }
+};
+
+      if (modeBtn) {
+        updateButtonText();
+        modeBtn.addEventListener('click', () => {
+          currentMode = currentMode === 'waifu' ? 'femboy' : 'waifu';
+          localStorage.setItem('art_mode', currentMode);
+          updateButtonText();
+          loadArt();
+        });
+      }
+
+      loadArt();
+    });
+  </script>
 </body>
 </html>
