@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -59,36 +59,43 @@
       <span class="cmd">whoami</span>
     </div>
     <a class="nick" href="#top">MBKCHEL</a>
-    <button id="mode-toggle" class="topbar-mode-btn" title="Переключить режим артов">
-      <span class="mode-dot"></span>
-      <span id="mode-text">Mode: Waifu</span>
-    </button>
+    <div class="topbar-controls">
+      <button id="mode-toggle" class="topbar-mode-btn" title="Переключить режим артов">
+        <span class="mode-dot"></span>
+        <span id="mode-text">Mode: Waifu</span>
+      </button>
+      <button id="lang-toggle" class="topbar-mode-btn" title="Switch language / Сменить язык">
+        <span class="mode-dot"></span>
+        <span id="lang-text">Lang: EN</span>
+      </button>
+    </div>
     <p class="homedir">/home/mbkchel</p>
-    <p class="status"><span class="dot"></span>Rust Developer</p>
+    <p class="status"><span class="dot"></span><span data-i18n="status">Rust Developer</span></p>
   </header>
 
   <main id="top">
+    <section class="panel links-panel reveal" style="--d: 0.12s">
+      <p class="kicker" data-i18n="kicker_links">// links</p>
+      <nav class="socials" aria-label="Соцсети">
+        <a class="soc pink" href="https://github.com/MBKCHEL">GitHub</a>
+        <a class="soc cyan" href="https://t.me/MBKCHELIK" data-i18n="soc_channel">Telegram Channel</a>
+        <a class="soc green" href="https://discord.com/users/1026187602442854451">Discord</a>
+        <a class="soc pink" href="https://t.me/mbkchel">Telegram</a>
+        <a class="soc cyan" href="https://www.tiktok.com/@mbkchel_official">TikTok</a>
+        <a class="soc green" href="https://open.spotify.com/user/312yty4gbxrcfgb2ka3kflzfqyhe">Spotify</a>
+      </nav>
+    </section>
+
     <section class="hero">
       <article class="panel intro reveal" style="--d: 0.18s">
-        <p class="kicker">// boot sequence</p>
-        <h1>System code.<br /><em></em></h1>
-        <p class="lede">
-          Writing CLI and low-level utilities in Rust for Linux.
-          Arch + Niri is my working environment.
-        </p>
+        <p class="kicker" data-i18n="kicker_boot">// boot sequence</p>
+        <h1 data-i18n="title">System code.</h1>
+        <p class="lede" data-i18n="lede">Writing CLI and low-level utilities in Rust for Linux. Arch + Niri is my working environment.</p>
         <div class="chips">
           <span class="chip pink">Rust</span>
           <span class="chip cyan">MBKCHEL</span>
           <span class="chip green">Arch Linux, Niri</span>
         </div>
-        <nav class="socials" aria-label="Соцсети">
-          <a class="soc pink" href="https://github.com/MBKCHEL">GitHub</a>
-          <a class="soc cyan" href="https://t.me/MBKCHELIK">Telegram Channel</a>
-          <a class="soc green" href="https://discord.com/users/1026187602442854451">Discord</a>
-          <a class="soc pink" href="https://t.me/mbkchel">Telegram</a>
-          <a class="soc cyan" href="https://www.tiktok.com/@mbkchel_official">TikTok</a>
-          <a class="soc green" href="https://open.spotify.com/user/312yty4gbxrcfgb2ka3kflzfqyhe">Spotify</a>
-        </nav>
       </article>
 
       <aside class="panel aesthetic reveal" style="--d: 0.32s">
@@ -96,9 +103,8 @@
           <div class="aesthetic-glow" aria-hidden="true"></div>
           <figure class="art-slot">
             <div class="art-card">
-  <img id="art-bg" alt="" class="art-bg" aria-hidden="true" style="opacity: 0; transition: opacity 0.3s ease;">
-  <img id="art-img" alt="Aesthetic Art" class="art-image" style="opacity: 0; transition: opacity 0.3s ease;">
-</div>
+              <img id="art-img" alt="Aesthetic Art" class="art-image" style="opacity: 0; transition: opacity 0.3s ease;">
+            </div>
           </figure>
           <div class="art-meta">
             <span class="tag">/mbkchel_best</span>
@@ -110,15 +116,15 @@
 
     <section class="stack reveal" style="--d: 0.54s" id="stack">
       <div class="section-head">
-        <p class="kicker">// inventory</p>
-        <h2>Tech Stack</h2>
+        <p class="kicker" data-i18n="kicker_stack">// inventory</p>
+        <h2 data-i18n="stack_title">Tech Stack</h2>
       </div>
 
       <article class="panel tier">
         <ul>
-          <li><code>Rust</code><small>The Best Programming Language</small></li>
+          <li><code>Rust</code><small data-i18n="rust_desc">The Best Programming Language</small></li>
           <li><code>Linux</code><small>Arch / Niri</small></li>
-          <li><code>Python</code><small>Automatization</small></li>
+          <li><code>Python</code><small data-i18n="py_desc">Automatization</small></li>
         </ul>
       </article>
     </section>
@@ -134,113 +140,149 @@
       const img = document.getElementById('art-img');
       const modeBtn = document.getElementById('mode-toggle');
       const modeText = document.getElementById('mode-text');
+      const langBtn = document.getElementById('lang-toggle');
+      const langText = document.getElementById('lang-text');
 
       let currentMode = localStorage.getItem('art_mode') || 'waifu';
+      // Язык по умолчанию: 'en'. Чтобы сайт открывался на русском, поставь 'ru'
+      let currentLang = localStorage.getItem('lang') || 'en';
 
-      const updateButtonText = () => {
-        if (modeText) {
-          modeText.textContent = currentMode === 'femboy' ? 'Mode: Femboy' : 'Mode: Waifu';
+      // Все переводимые тексты. Ключ совпадает с data-i18n в HTML
+      const i18n = {
+        en: {
+          status: 'Rust Developer',
+          kicker_boot: '// boot sequence',
+          title: 'System code.',
+          lede: 'Writing CLI and low-level utilities in Rust for Linux. Arch + Niri is my working environment.',
+          kicker_links: '// links',
+          soc_channel: 'Telegram Channel',
+          kicker_stack: '// inventory',
+          stack_title: 'Tech Stack',
+          rust_desc: 'The Best Programming Language',
+          py_desc: 'Automatization',
+          mode_femboy: 'Mode: Femboy',
+          mode_waifu: 'Mode: Waifu',
+          lang_btn: 'Lang: EN'
+        },
+        ru: {
+          status: 'Rust-разработчик',
+          kicker_boot: '// загрузка системы',
+          title: 'Системный код.',
+          lede: 'Пишу CLI и низкоуровневые утилиты на Rust для Linux. Arch + Niri — моя рабочая среда.',
+          kicker_links: '// ссылки',
+          soc_channel: 'Telegram-канал',
+          kicker_stack: '// инвентарь',
+          stack_title: 'Стек технологий',
+          rust_desc: 'Лучший язык программирования',
+          py_desc: 'Автоматизация',
+          mode_femboy: 'Режим: Фембой',
+          mode_waifu: 'Режим: Вайфу',
+          lang_btn: 'Язык: RU'
         }
       };
 
-      const bg = document.getElementById('art-bg');
+      const t = (key) => i18n[currentLang][key];
 
+      const updateButtonText = () => {
+        if (modeText) {
+          modeText.textContent = currentMode === 'femboy' ? t('mode_femboy') : t('mode_waifu');
+        }
+      };
+
+      // Проходит по всем элементам с data-i18n и подставляет текст нужного языка
+      const applyLang = () => {
+        document.documentElement.lang = currentLang;
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          const text = t(el.dataset.i18n);
+          if (text !== undefined) el.textContent = text;
+        });
+        updateButtonText();
+        if (langText) langText.textContent = t('lang_btn');
+      };
+
+      // Плавно показывает новый арт; при ошибке ставит запасного Астольфо
       const showImage = (url) => {
-  console.log('Пробую загрузить картинку:', url);
-  img.style.opacity = '0';
-  bg.style.opacity = '0';
-
-  const tempImg = new Image();
-  tempImg.referrerPolicy = 'no-referrer';
-  tempImg.onload = () => {
-    console.log('Картинка загрузилась OK');
-    img.referrerPolicy = 'no-referrer';
-    bg.referrerPolicy = 'no-referrer';
-    img.src = url;
-    bg.src = url;
-    img.style.opacity = '1';
-    bg.style.opacity = '1';
-  };
-  tempImg.onerror = () => {
-    console.error('Картинка НЕ загрузилась:', url);
-    img.src = 'astolfo.png';
-    bg.src = 'astolfo.png';
-    img.style.opacity = '1';
-    bg.style.opacity = '1';
-  };
-  tempImg.src = url;
-};
+        img.style.opacity = '0';
+        const tempImg = new Image();
+        tempImg.referrerPolicy = 'no-referrer';
+        tempImg.onload = () => {
+          img.referrerPolicy = 'no-referrer';
+          img.src = url;
+          img.style.opacity = '1';
+        };
+        tempImg.onerror = () => {
+          img.src = 'astolfo.png';
+          img.style.opacity = '1';
+        };
+        tempImg.src = url; // src ставим последним
+      };
 
       const loadArt = () => {
-  if (currentMode === 'femboy') {
-  const tags = ['femboy', 'trap', 'otoko_no_ko'];
-  const workerBase = 'https://ferbooru.mbkchelofficialdev.workers.dev';
+        // Режим Femboy: Safebooru через свой Cloudflare Worker
+        if (currentMode === 'femboy') {
+          const tags = ['femboy', 'trap', 'otoko_no_ko'];
+          const workerBase = 'https://ferbooru.mbkchelofficialdev.workers.dev';
 
-  const tryFetch = () => {
-    const tag = tags[Math.floor(Math.random() * tags.length)];
-    const page = Math.floor(Math.random() * 5);
-    const url = workerBase
-      + '/?tags=' + encodeURIComponent(tag)
-      + '&pid=' + page;
+          const tryFetch = () => {
+            const tag = tags[Math.floor(Math.random() * tags.length)];
+            const page = Math.floor(Math.random() * 5);
+            const url = workerBase
+              + '/?tags=' + encodeURIComponent(tag)
+              + '&pid=' + page;
 
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 20000);
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), 20000);
 
-    return fetch(url, { signal: controller.signal })
-      .then(res => {
-        clearTimeout(timer);
-        console.log('Статус ответа:', res.status);
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        return res.json();
-      });
-  };
+            return fetch(url, { signal: controller.signal })
+              .then(res => {
+                clearTimeout(timer);
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                return res.json();
+              });
+          };
 
-  tryFetch()
-    .catch(err => {
-      console.warn('Первая попытка не удалась:', err, '— пробую ещё раз');
-      return tryFetch();
-    })
-    .then(posts => {
-      console.log('Постов получено:', posts.length);
-      const okExt = ['jpg', 'jpeg', 'png', 'webp'];
-      const valid = posts.filter(p => {
-        const link = p.sample_url || p.file_url;
-        return link && okExt.includes(link.split('.').pop().toLowerCase());
-      });
-      console.log('Подходящих картинок:', valid.length);
+          // Первая попытка, при неудаче вторая (с другим тегом и страницей)
+          tryFetch()
+            .catch(() => tryFetch())
+            .then(posts => {
+              const okExt = ['jpg', 'jpeg', 'png', 'webp'];
+              const valid = posts.filter(p => {
+                const link = p.sample_url || p.file_url;
+                return link && okExt.includes(link.split('.').pop().toLowerCase());
+              });
 
-      if (valid.length === 0) {
-        showImage('astolfo.png');
-        return;
-      }
-      const p = valid[Math.floor(Math.random() * valid.length)];
-      showImage(p.sample_url || p.file_url);
-    })
-    .catch(err => {
-      console.error('Safebooru ошибка:', err);
-      showImage('astolfo.png');
-    });
-  return;
-}
+              if (valid.length === 0) {
+                showImage('astolfo.png');
+                return;
+              }
+              const p = valid[Math.floor(Math.random() * valid.length)];
+              showImage(p.sample_url || p.file_url);
+            })
+            .catch(err => {
+              console.error('Safebooru error:', err);
+              showImage('astolfo.png');
+            });
+          return;
+        }
 
-  if (Math.random() < 0.7) {
-    fetch('https://nekos.best/api/v2/neko')
-      .then(res => res.json())
-      .then(data => {
-        if (data.results && data.results[0] && data.results[0].url) {
-          showImage(data.results[0].url);
+        // Режим Waifu: nekos.best, в 30% случаев локальный Астольфо
+        if (Math.random() < 0.7) {
+          fetch('https://nekos.best/api/v2/neko')
+            .then(res => res.json())
+            .then(data => {
+              if (data.results && data.results[0] && data.results[0].url) {
+                showImage(data.results[0].url);
+              } else {
+                showImage('astolfo.png');
+              }
+            })
+            .catch(() => showImage('astolfo.png'));
         } else {
           showImage('astolfo.png');
         }
-      })
-      .catch(() => showImage('astolfo.png'));
-  } else {
-    showImage('astolfo.png');
-  }
-};
+      };
 
       if (modeBtn) {
-        updateButtonText();
         modeBtn.addEventListener('click', () => {
           currentMode = currentMode === 'waifu' ? 'femboy' : 'waifu';
           localStorage.setItem('art_mode', currentMode);
@@ -249,6 +291,15 @@
         });
       }
 
+      if (langBtn) {
+        langBtn.addEventListener('click', () => {
+          currentLang = currentLang === 'en' ? 'ru' : 'en';
+          localStorage.setItem('lang', currentLang);
+          applyLang();
+        });
+      }
+
+      applyLang();
       loadArt();
     });
   </script>
