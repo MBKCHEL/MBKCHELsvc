@@ -144,10 +144,8 @@
       const langText = document.getElementById('lang-text');
 
       let currentMode = localStorage.getItem('art_mode') || 'waifu';
-      // Язык по умолчанию: 'en'. Чтобы сайт открывался на русском, поставь 'ru'
       let currentLang = localStorage.getItem('lang') || 'en';
 
-      // Все переводимые тексты. Ключ совпадает с data-i18n в HTML
       const i18n = {
         en: {
           status: 'Rust Developer',
@@ -168,7 +166,7 @@
           status: 'Rust-разработчик',
           kicker_boot: '// загрузка системы',
           title: 'Системный код.',
-          lede: 'Пишу CLI и низкоуровневые утилиты на Rust для Linux. Arch + Niri — моя рабочая среда.',
+          lede: 'Пишу CLI и низкоуровневые утилиты на Rust для Linux. Arch + Niri -- моя рабочая среда.',
           kicker_links: '// ссылки',
           soc_channel: 'Telegram-канал',
           kicker_stack: '// инвентарь',
@@ -189,7 +187,6 @@
         }
       };
 
-      // Проходит по всем элементам с data-i18n и подставляет текст нужного языка
       const applyLang = () => {
         document.documentElement.lang = currentLang;
         document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -200,7 +197,6 @@
         if (langText) langText.textContent = t('lang_btn');
       };
 
-      // Плавно показывает новый арт; при ошибке ставит запасного Астольфо
       const showImage = (url) => {
         img.style.opacity = '0';
         const tempImg = new Image();
@@ -214,11 +210,10 @@
           img.src = 'astolfo.png';
           img.style.opacity = '1';
         };
-        tempImg.src = url; // src ставим последним
+        tempImg.src = url;
       };
 
       const loadArt = () => {
-        // Режим Femboy: Safebooru через свой Cloudflare Worker
         if (currentMode === 'femboy') {
           const tags = ['femboy', 'trap', 'otoko_no_ko'];
           const workerBase = 'https://ferbooru.mbkchelofficialdev.workers.dev';
@@ -241,7 +236,6 @@
               });
           };
 
-          // Первая попытка, при неудаче вторая (с другим тегом и страницей)
           tryFetch()
             .catch(() => tryFetch())
             .then(posts => {
@@ -265,7 +259,6 @@
           return;
         }
 
-        // Режим Waifu: nekos.best, в 30% случаев локальный Астольфо
         if (Math.random() < 0.7) {
           fetch('https://nekos.best/api/v2/neko')
             .then(res => res.json())
