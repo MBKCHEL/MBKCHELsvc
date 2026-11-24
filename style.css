@@ -79,9 +79,9 @@ img {
   z-index: -2;
   overflow: hidden;
   background:
-    radial-gradient(circle at 12% -5%, rgba(var(--cyan-rgb), 0.09), transparent 32%),
-    radial-gradient(circle at 88% 5%, rgba(var(--pink-rgb), 0.09), transparent 34%),
-    linear-gradient(180deg, #080810 0%, #05050a 58%, #07070e 100%);
+  radial-gradient(circle at 12% -5%, rgba(var(--cyan-rgb), 0.09), transparent 32%),
+  radial-gradient(circle at 88% 5%, rgba(var(--pink-rgb), 0.09), transparent 34%),
+  linear-gradient(180deg, #080810 0%, #05050a 58%, #07070e 100%);
 }
 
 .blob {
@@ -126,8 +126,8 @@ img {
   height: 72vh;
   opacity: 0.28;
   background-image:
-    linear-gradient(rgba(var(--cyan-rgb), 0.14) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(var(--cyan-rgb), 0.14) 1px, transparent 1px);
+  linear-gradient(rgba(var(--cyan-rgb), 0.14) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(var(--cyan-rgb), 0.14) 1px, transparent 1px);
   background-size: 58px 58px;
   transform: perspective(640px) rotateX(64deg);
   transform-origin: center bottom;
@@ -316,8 +316,8 @@ img {
 }
 
 #lang-toggle .mode-dot {
-  background: var(--cyan);
-  box-shadow: 0 0 9px var(--cyan);
+background: var(--cyan);
+box-shadow: 0 0 9px var(--cyan);
 }
 
 .scroll-progress {
@@ -351,8 +351,8 @@ main {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background:
-    linear-gradient(155deg, rgba(255, 255, 255, 0.05), transparent 36%),
-    var(--panel-bg);
+  linear-gradient(155deg, rgba(255, 255, 255, 0.05), transparent 36%),
+  var(--panel-bg);
   box-shadow: var(--shadow);
 }
 
@@ -365,8 +365,8 @@ main {
   opacity: 0;
   background: radial-gradient(
     260px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(var(--pink-rgb), 0.1),
-    transparent 68%
+                              rgba(var(--pink-rgb), 0.1),
+                              transparent 68%
   );
   transition: opacity 0.35s ease;
 }
@@ -611,8 +611,8 @@ h1 em {
   border-radius: 20px;
   background: #0a0b12;
   box-shadow:
-    0 24px 70px rgba(0, 0, 0, 0.58),
-    0 0 60px rgba(var(--pink-rgb), 0.1);
+  0 24px 70px rgba(0, 0, 0, 0.58),
+  0 0 60px rgba(var(--pink-rgb), 0.1);
   transform-origin: center;
   transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
@@ -626,8 +626,8 @@ h1 em {
     from 0deg,
     transparent 0deg 42deg,
     rgba(var(--pink-rgb), 0.95) 70deg,
-    rgba(var(--cyan-rgb), 0.95) 118deg,
-    transparent 158deg 360deg
+                             rgba(var(--cyan-rgb), 0.95) 118deg,
+                             transparent 158deg 360deg
   );
   animation: spin 9s linear infinite;
 }
@@ -662,7 +662,6 @@ h1 em {
   object-position: 78% 20%;
 }
 
-
 .art-loader {
   position: absolute;
   inset: 2px;
@@ -671,8 +670,8 @@ h1 em {
   place-items: center;
   border-radius: 18px;
   background:
-    radial-gradient(circle at 50% 45%, rgba(var(--pink-rgb), 0.08), transparent 55%),
-    linear-gradient(155deg, #0b0c14, #11121c);
+  radial-gradient(circle at 50% 45%, rgba(var(--pink-rgb), 0.08), transparent 55%),
+  linear-gradient(155deg, #0b0c14, #11121c);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
@@ -978,13 +977,13 @@ h1 em {
   overflow: hidden;
   border-color: rgba(var(--pink-rgb), 0.32);
   background:
-    radial-gradient(circle at 88% 82%, rgba(var(--pink-rgb), 0.18), transparent 46%),
-    radial-gradient(circle at 10% 0%, rgba(var(--cyan-rgb), 0.1), transparent 48%),
-    linear-gradient(150deg, rgba(255, 255, 255, 0.06), transparent 46%),
-    rgba(13, 14, 23, 0.84);
+  radial-gradient(circle at 88% 82%, rgba(var(--pink-rgb), 0.18), transparent 46%),
+  radial-gradient(circle at 10% 0%, rgba(var(--cyan-rgb), 0.1), transparent 48%),
+  linear-gradient(150deg, rgba(255, 255, 255, 0.06), transparent 46%),
+  rgba(13, 14, 23, 0.84);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.04),
-    0 30px 80px rgba(0, 0, 0, 0.35);
+  inset 0 1px 0 rgba(255, 255, 255, 0.04),
+  0 30px 80px rgba(0, 0, 0, 0.35);
 }
 
 .ach-index {
@@ -1017,8 +1016,8 @@ h1 em {
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 14px;
   background:
-    linear-gradient(120deg, rgba(var(--cyan-rgb), 0.045), transparent 45%),
-    rgba(255, 255, 255, 0.022);
+  linear-gradient(120deg, rgba(var(--cyan-rgb), 0.045), transparent 45%),
+  rgba(255, 255, 255, 0.022);
 }
 
 .ach-line {
@@ -1053,18 +1052,18 @@ h1 em {
   border-radius: 16px;
   background: rgba(7, 8, 14, 0.72);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.025),
-    0 22px 55px rgba(0, 0, 0, 0.42),
-    0 0 26px rgba(var(--pink-rgb), 0.08);
+  inset 0 0 0 1px rgba(255, 255, 255, 0.025),
+  0 22px 55px rgba(0, 0, 0, 0.42),
+  0 0 26px rgba(var(--pink-rgb), 0.08);
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .ach-featured:hover .ach-shot {
   border-color: rgba(var(--pink-rgb), 0.55);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.035),
-    0 26px 60px rgba(0, 0, 0, 0.46),
-    0 0 34px rgba(var(--pink-rgb), 0.16);
+  inset 0 0 0 1px rgba(255, 255, 255, 0.035),
+  0 26px 60px rgba(0, 0, 0, 0.46),
+  0 0 34px rgba(var(--pink-rgb), 0.16);
 }
 
 .ach-shot-bar {
@@ -1115,8 +1114,8 @@ h1 em {
 }
 
 .ach-shot-body img {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  z-index: 2;
   display: block;
   width: 100%;
   height: 100%;
@@ -1151,8 +1150,8 @@ h1 em {
   opacity: 0;
   transform: translateY(26px);
   transition:
-    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+  transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   transition-delay: var(--d, 0s);
 }
 
@@ -1420,4 +1419,76 @@ h1 em {
     opacity: 1;
     transform: none;
   }
+}
+
+/* ---------- Лайтбокс скриншота патча ---------- */
+.ach-shot-img {
+  cursor: zoom-in;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.8rem, 3vw, 2rem);
+  background: rgba(6, 6, 11, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox.is-open {
+  opacity: 1;
+}
+
+.lightbox-img {
+  position: relative;
+  z-index: 1;
+  max-width: min(96vw, 1600px);
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border: 1px solid rgba(var(--pink-rgb), 0.35);
+  border-radius: var(--radius-sm);
+  background: #080910;
+  box-shadow:
+  0 28px 90px rgba(0, 0, 0, 0.78),
+  0 0 45px rgba(var(--pink-rgb), 0.14);
+}
+
+.lightbox-close {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: rgba(13, 14, 23, 0.88);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.lightbox-close:hover {
+  color: var(--pink);
+  border-color: rgba(var(--pink-rgb), 0.5);
+  box-shadow: 0 0 24px rgba(var(--pink-rgb), 0.22);
+  transform: scale(1.06);
 }

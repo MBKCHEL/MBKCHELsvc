@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#06060b" />
   <meta name="color-scheme" content="dark" />
-  <meta name="description" content="MBKCHEL — Rust developer. CLI, low-level utilities and Linux systems." />
-  <title>MBKCHEL - /home/mbkchel</title>
+  <meta name="description" content="MBKCHEL -- Rust developer. CLI, low-level utilities and Linux systems." />
+  <title>MBKCHEL -- /home/mbkchel</title>
   <script>document.documentElement.classList.add('js');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -27,7 +27,7 @@
 
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="brand" href="#top" aria-label="MBKCHEL — наверх">
+      <a class="brand" href="#top" aria-label="MBKCHEL -- наверх">
         <span class="brand-glyph" aria-hidden="true">M</span>
         <span class="brand-name">MBKCHEL</span>
       </a>
@@ -223,6 +223,11 @@
     <span>exit 0</span>
     <span>© MBKCHEL · systems</span>
   </footer>
+
+  <div id="patch-lightbox" class="lightbox" hidden aria-modal="true" role="dialog" aria-label="Просмотр скриншота патча">
+    <button id="patch-lightbox-close" class="lightbox-close" type="button" aria-label="Закрыть">×</button>
+    <img id="patch-lightbox-img" class="lightbox-img" src="" alt="" />
+  </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -502,6 +507,48 @@
           }
         });
       }
+
+      const lightbox = document.getElementById('patch-lightbox');
+      const lightboxImg = document.getElementById('patch-lightbox-img');
+      const lightboxClose = document.getElementById('patch-lightbox-close');
+
+      const openLightbox = () => {
+        if (!patchImg || !lightbox || !lightboxImg) return;
+        lightboxImg.src = patchImg.currentSrc || patchImg.src;
+        lightboxImg.alt = patchImg.alt || 'Patch screenshot';
+        lightbox.hidden = false;
+        document.body.style.overflow = 'hidden';
+        requestAnimationFrame(() => lightbox.classList.add('is-open'));
+      };
+
+      const closeLightbox = () => {
+        if (!lightbox) return;
+        lightbox.classList.remove('is-open');
+        document.body.style.overflow = '';
+        window.setTimeout(() => {
+          if (!lightbox.classList.contains('is-open')) {
+            lightbox.hidden = true;
+            if (lightboxImg) lightboxImg.src = '';
+          }
+        }, 180);
+      };
+
+      if (patchImg) {
+        patchImg.addEventListener('click', openLightbox);
+      }
+      if (lightboxClose) {
+        lightboxClose.addEventListener('click', closeLightbox);
+      }
+      if (lightbox) {
+        lightbox.addEventListener('click', (event) => {
+          if (event.target === lightbox) closeLightbox();
+        });
+      }
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && lightbox && !lightbox.hidden) {
+          closeLightbox();
+        }
+      });
 
       const revealEls = document.querySelectorAll('.reveal');
       if ('IntersectionObserver' in window) {
