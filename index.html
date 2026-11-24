@@ -236,21 +236,21 @@
       const scrollBar = document.getElementById('scroll-bar');
       const topbar = document.querySelector('.topbar');
 
-const store = {
-    get(key) {
-        try { return localStorage.getItem(key); } catch (err) { return null; }
-    },
-    set(key, value) {
-        try { localStorage.setItem(key, value); } catch (err) { /* private mode */ }
-    }
-};
+      const store = {
+        get(key) {
+          try { return localStorage.getItem(key); } catch (err) { return null; }
+        },
+        set(key, value) {
+          try { localStorage.setItem(key, value); } catch (err) { /* private mode */ }
+        }
+      };
 
-let currentMode = store.get('art_mode') || 'waifu';
-let currentLang = store.get('lang') || 'en';
-let requestId = 0;
+      let currentMode = store.get('art_mode') || 'waifu';
+      let currentLang = store.get('lang') || 'en';
+      let requestId = 0;
 
-const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       const i18n = {
         en: {
@@ -282,12 +282,8 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
           nav_stack: '// инвентарь',
           nav_ach: '// Achievements',
           kicker_boot: '// загрузка системы',
-<<<<<<< HEAD
-          title: 'Системный код.',
-=======
           title_main: 'Системный',
           title_em: 'код.',
->>>>>>> 2223071 (feat(refactoring): fefactoring site, and add info about Linux Kernel Contributor)
           lede: 'Пишу CLI и низкоуровневые утилиты на Rust для Linux. Arch + Niri -- моя рабочая среда.',
           kicker_links: '// ссылки',
           links_title: 'Ссылки',
@@ -327,16 +323,6 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
         }
       };
 
-<<<<<<< HEAD
-      const showImage = (url) => {
-        img.style.opacity = '0';
-        const tempImg = new Image();
-        tempImg.referrerPolicy = 'no-referrer';
-        tempImg.onload = () => {
-          img.referrerPolicy = 'no-referrer';
-          img.src = url;
-          img.style.opacity = '1';
-=======
       const setArtLoading = (loading) => {
         artSlot.classList.toggle('is-loading', loading);
         refreshBtn.classList.toggle('is-loading', loading);
@@ -357,7 +343,6 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
           } else {
             setArtLoading(false);
           }
->>>>>>> 2223071 (feat(refactoring): fefactoring site, and add info about Linux Kernel Contributor)
         };
 
         const timer = window.setTimeout(fail, 15000);
@@ -378,54 +363,6 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
           artImg.onerror = fail;
           artImg.src = url;
         };
-<<<<<<< HEAD
-        tempImg.src = url;
-      };
-
-      const loadArt = () => {
-        if (currentMode === 'femboy') {
-          const tags = ['femboy', 'trap', 'otoko_no_ko'];
-          const workerBase = 'https://ferbooru.mbkchelofficialdev.workers.dev';
-
-          const tryFetch = () => {
-            const tag = tags[Math.floor(Math.random() * tags.length)];
-            const page = Math.floor(Math.random() * 5);
-            const url = workerBase
-              + '/?tags=' + encodeURIComponent(tag)
-              + '&pid=' + page;
-
-            const controller = new AbortController();
-            const timer = setTimeout(() => controller.abort(), 20000);
-
-            return fetch(url, { signal: controller.signal })
-              .then(res => {
-                clearTimeout(timer);
-                if (!res.ok) throw new Error('HTTP ' + res.status);
-                return res.json();
-              });
-          };
-
-          tryFetch()
-            .catch(() => tryFetch())
-            .then(posts => {
-              const okExt = ['jpg', 'jpeg', 'png', 'webp'];
-              const valid = posts.filter(p => {
-                const link = p.sample_url || p.file_url;
-                return link && okExt.includes(link.split('.').pop().toLowerCase());
-              });
-
-              if (valid.length === 0) {
-                showImage('astolfo.png');
-                return;
-              }
-              const p = valid[Math.floor(Math.random() * valid.length)];
-              showImage(p.sample_url || p.file_url);
-            })
-            .catch(err => {
-              console.error('Safebooru error:', err);
-              showImage('astolfo.png');
-            });
-=======
         probe.onerror = fail;
         probe.src = url;
       };
@@ -488,7 +425,6 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 
         if (currentMode === 'femboy') {
           fetchFemboyArt(id);
->>>>>>> 2223071 (feat(refactoring): fefactoring site, and add info about Linux Kernel Contributor)
           return;
         }
 
